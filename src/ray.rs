@@ -1,22 +1,22 @@
-use crate::vec3::Vec3;
+use crate::vec3::R3Vector;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq)]
 pub struct Ray {
-    origin: Vec3,
-    direction: Vec3,
+    origin: R3Vector,
+    direction: R3Vector,
 }
 impl Ray {
-    pub const fn new(origin: Vec3, direction: Vec3) -> Self {
+    pub const fn new(origin: R3Vector, direction: R3Vector) -> Self {
         Self { origin, direction }
     }
-    pub const fn origin(&self) -> Vec3 {
+    pub const fn origin(&self) -> R3Vector {
         self.origin
     }
-    pub const fn direction(&self) -> Vec3 {
+    pub const fn direction(&self) -> R3Vector {
         self.direction
     }
 
-    pub fn at(&self, t: f64) -> Vec3 {
+    pub fn at(&self, t: f64) -> R3Vector {
         self.origin + (t * self.direction)
     }
 }
