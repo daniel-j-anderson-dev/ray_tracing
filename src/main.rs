@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn core::error::Error>> {
     let header = netpbm::Header {
         format: netpbm::Format::PIXEL_MAP_BINARY,
         resolution,
-        maximum: 255,
+        maximum: u8::MAX as _,
     };
     let pixels = red_green_gradient(resolution).flat_map(Rgb8::to_ppm_binary);
     let output = header
