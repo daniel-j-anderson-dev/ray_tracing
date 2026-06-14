@@ -1,0 +1,44 @@
+use crate::color::{Rgb8, RgbPercent};
+
+pub mod color;
+pub mod error;
+pub mod netpbm;
+pub mod ray;
+pub mod vec3;
+
+pub const CLEAR_LINE: &'static str = "\r\x1B[K";
+
+pub fn generate_red_green_gradient_ppm(width: u32, height: u32) -> Vec<u8> {
+    netpbm::Header {
+        format: netpbm::Format::P6,
+        height: height,
+        width: width,
+        maximum: 255,
+    }
+    .to_bytes()
+    .into_iter()
+    .chain(
+        (0..height)
+            .inspect(|&row| {
+                eprint!(
+                    "{CLEAR_LINE}Scanlines remaining: {}{}",
+                    height - row,
+                    if row == height - 1 { "\n" } else { "" }
+                )
+            })
+            .flat_map(|row| {
+                (0..width).flat_map(move |column| {
+                    let horizontal_ratio = column as f64 / width as f64;
+                    let vertical_ratio = row as f64 / height as f64;
+                    RgbPercent {
+                        red: horizontal_ratio,
+                        green: vertical_ratio,
+                        blue: 0.0,
+                    }
+                    .to_rgb8()
+                    .to_ppm_binary()
+                })
+            }),
+    )
+    .collect()
+}
