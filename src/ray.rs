@@ -1,4 +1,4 @@
-use crate::vec3::R3Vector;
+use crate::r3_vector::R3Vector;
 
 #[derive(Debug, Default, Clone, Copy, PartialEq)]
 pub struct Ray {

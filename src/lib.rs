@@ -4,7 +4,7 @@ pub mod color;
 pub mod error;
 pub mod netpbm;
 pub mod ray;
-pub mod vec3;
+pub mod r3_vector;
 
 pub const CLEAR_LINE: &'static str = "\r\x1B[K";
 
