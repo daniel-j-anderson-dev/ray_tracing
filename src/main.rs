@@ -1,24 +1,36 @@
-use std::{fs::OpenOptions, io::Write};
+use std::{fs::File, io::Write};
 
-use ray_tracing::generate_red_green_gradient_ppm;
+use ray_tracing::{Resolution, color::Rgb8, netpbm, red_green_gradient};
 
 fn main() -> Result<(), Box<dyn core::error::Error>> {
-    let width = 256;
-    let height = 256;
-    let gradient_path = format!("{}x{}_red_green_gradient.ppm", width, height);
+    let resolution = Resolution {
+        height: 256,
+        width: 256,
+    };
+    let output_path = format!("output/{}_red_green_gradient.ppm", resolution);
 
-    eprintln!("generating {}x{} red green gradient", width, height,);
+    eprintln!("generating {} red green gradient", resolution);
 
-    let gradient_image = generate_red_green_gradient_ppm(width, height);
+    let header = netpbm::Header {
+        format: netpbm::Format::PIXEL_MAP_BINARY,
+        resolution,
+        maximum: 255,
+    };
+    let pixels = red_green_gradient(resolution).flat_map(Rgb8::to_ppm_binary);
+    let output = header
+        .to_bytes()
+        .into_iter()
+        .chain(pixels)
+        .collect::<Box<_>>();
 
     eprintln!("saving gradient");
-    OpenOptions::new()
+    File::options()
         .create(true)
         .write(true)
         .truncate(true)
-        .open(&gradient_path)?
-        .write_all(&gradient_image)?;
-    eprintln!("gradient saved to ./{}", gradient_path);
+        .open(&output_path)?
+        .write_all(&output)?;
+    eprintln!("gradient saved to ./{}", output_path);
 
     Ok(())
 }
