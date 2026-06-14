@@ -67,7 +67,7 @@ impl R3Vector {
     }
 }
 
-///arithmetic
+/// arithmetic
 impl R3Vector {
     pub const fn negate(&self) -> Self {
         Self {
