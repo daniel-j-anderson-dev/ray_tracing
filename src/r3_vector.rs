@@ -23,6 +23,16 @@ impl R3Vector {
     pub const fn from_array([x, y, z]: [f64; 3]) -> Self {
         Self { x, y, z }
     }
+
+    pub const fn to_tuple(&self) -> (f64, f64, f64) {
+        let &Self { x, y, z } = self;
+        (x, y, z)
+    }
+    
+    pub const fn to_array(&self) -> [f64; 3] {
+        let &Self { x, y, z } = self;
+        [x, y, z]
+    }
 }
 
 /// Conical R3 vector operations
