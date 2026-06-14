@@ -65,7 +65,7 @@ impl Rgb8 {
     /// # Example
     /// ```rust
     /// use ray_tracing::color::Rgb8;
-    /// let color = Rgb8::from((255, 255, 0));
+    /// let color = Rgb8 { red: 255, green: 255, blue: 0};
     /// let ppm = color.ppm_ascii();
     ///
     /// assert_eq!(ppm, "255 255 0 ");
