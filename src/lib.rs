@@ -6,13 +6,13 @@ pub mod netpbm;
 pub mod ray;
 pub mod r3_vector;
 
-pub const CLEAR_LINE: &'static str = "\r\x1B[K";
+pub const CLEAR_LINE: &str = "\r\x1B[K";
 
 pub fn generate_red_green_gradient_ppm(width: u32, height: u32) -> Vec<u8> {
     netpbm::Header {
         format: netpbm::Format::P6,
-        height: height,
-        width: width,
+        height,
+        width,
         maximum: 255,
     }
     .to_bytes()

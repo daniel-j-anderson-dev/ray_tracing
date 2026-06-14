@@ -3,8 +3,8 @@ use std::{fs::OpenOptions, io::Write};
 use ray_tracing::generate_red_green_gradient_ppm;
 
 fn main() -> Result<(), Box<dyn core::error::Error>> {
-    let width = 1920;
-    let height = 1080;
+    let width = 256;
+    let height = 256;
     let gradient_path = format!("{}x{}_red_green_gradient.ppm", width, height);
 
     eprintln!("generating {}x{} red green gradient", width, height,);
