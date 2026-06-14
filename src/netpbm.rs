@@ -1,4 +1,4 @@
-use crate::color::Rgb8;
+use crate::{Resolution, color::Rgb8, netpbm::Format::*};
 
 #[derive(Debug, Copy, Clone)]
 pub enum Format {
@@ -16,8 +16,22 @@ pub enum Format {
     P6,
 }
 impl Format {
+    pub const BITMAP_ASCII: Self = P1;
+    pub const BITMAP_BINARY: Self = P4;
+    pub const GRAY_MAP_ASCII: Self = P2;
+    pub const GRAY_MAP_BINARY: Self = P5;
+    pub const PIXEL_MAP_ASCII: Self = P3;
+    pub const PIXEL_MAP_BINARY: Self = P6;
+
+    pub const fn is_ascii(&self) -> bool {
+        matches!(self, P1 | P2 | P3)
+    }
+
+    pub const fn is_binary(&self) -> bool {
+        matches!(self, P4 | P5 | P6)
+    }
+
     pub const fn extension(self) -> &'static str {
-        use Format::*;
         match self {
             P1 | P4 => "pbm",
             P2 | P5 => "pgm",
@@ -26,7 +40,6 @@ impl Format {
     }
 
     pub const fn variant_name(self) -> &'static str {
-        use Format::*;
         match self {
             P1 => "P1",
             P2 => "P2",
@@ -41,8 +54,7 @@ impl Format {
 #[derive(Debug, Copy, Clone)]
 pub struct Header {
     pub format: Format,
-    pub height: u32,
-    pub width: u32,
+    pub resolution: Resolution,
     pub maximum: u32,
 }
 impl Header {
@@ -50,8 +62,8 @@ impl Header {
         format!(
             "{}\n{} {}\n{}\n",
             self.format.variant_name(),
-            self.width,
-            self.height,
+            self.resolution.width,
+            self.resolution.height,
             self.maximum
         )
         .into_bytes()
@@ -83,7 +95,7 @@ impl Rgb8 {
     ///
     /// assert_eq!(ppm, [255, 255, 0]);
     /// ```
-    pub fn to_ppm_binary(self) -> [u8; 3] {
+    pub const fn to_ppm_binary(self) -> [u8; 3] {
         self.to_array()
     }
 }
