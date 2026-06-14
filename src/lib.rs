@@ -3,8 +3,8 @@ use crate::color::RgbPercent;
 pub mod color;
 pub mod error;
 pub mod netpbm;
-pub mod ray;
 pub mod r3_vector;
+pub mod ray;
 
 pub const CLEAR_LINE: &str = "\r\x1B[K";
 
