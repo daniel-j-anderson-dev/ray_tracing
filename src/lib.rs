@@ -1,4 +1,4 @@
-use crate::color::{Rgb8, RgbPercent};
+use crate::color::RgbPercent;
 
 pub mod color;
 pub mod error;
@@ -23,7 +23,11 @@ pub fn generate_red_green_gradient_ppm(width: u32, height: u32) -> Vec<u8> {
                 eprint!(
                     "{CLEAR_LINE}Scanlines remaining: {}{}",
                     height - row,
-                    if row == height - 1 { "\n" } else { "" }
+                    if row == height - 1 {
+                        format!("{CLEAR_LINE}Scanlines remaining: 0\nDone\n")
+                    } else {
+                        "".to_owned()
+                    }
                 )
             })
             .flat_map(|row| {
